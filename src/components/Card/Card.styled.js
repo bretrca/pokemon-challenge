@@ -1,5 +1,5 @@
 import styled from "styled-components";
-
+//fadein fadeout
 const PokemonContainer = styled.div`
   grid-area: "card";
   display: flex;
@@ -27,6 +27,7 @@ const PokemonContainer = styled.div`
   position: relative;
 `;
 const PokemonTitle = styled.div`
+  z-index: 2;
   position: absolute;
   top: 0;
   left: 0;
@@ -34,16 +35,17 @@ const PokemonTitle = styled.div`
   width: 100%;
   padding: 10px 0px;
   min-height: 20px;
-  color: #fff;
+  color: #000;
+  mix-blend-mode: darken;
 `;
 const PokemonImage = styled.img`
-  z-index: 1;
   position: absolute;
   width: 100%;
   height: 200px;
+  top: 0;
+  left: 0;
 `;
 const ButtonContainer = styled.div`
-  z-index: 100;
   position: absolute;
   display: block;
   width: 50px;

@@ -7,37 +7,45 @@ import {
   Button
 } from "./Card.styled";
 
-const CardComponent = ({attributes}) => {
-  const [data, setData] = useState();
+const Card = ({ url, name }) => {
+  const [data, setData] = useState(null);
+
   useEffect(() => {
-    fetch(`${attributes.url}`, {
-      method: "GET",
-      headers: {
-        protocol: "https"
-      }
-    })
-      .then( (res)=>{
-         if (res.ok) {
-        console.log(res);
-        return res.json();
-      } else {
-        throw res;
-      }})
+    fetchAttributes(url);
+  }, [url]);
+  const fetchAttributes = async (url) => {
+    fetch(`${url}`, { method: "GET" })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+      })
       .then((res) => {
         return setData(res);
       });
-  }, []);
-  console.log(data );
+  };
+  const clickHandler = () => {
+    console.log("click");
+  };
+
+  if (!data) return null;
+
   return (
     <PokemonContainer role={PokemonContainer}>
-      <PokemonTitle role={PokemonTitle}>{attributes.name}</PokemonTitle>
-      <PokemonImage role={PokemonImage}>
-      <img src={data.sprites.front_default} alt=" images "></img></PokemonImage>
+      <div>
+        <PokemonTitle role={PokemonTitle}>{name}</PokemonTitle>
+        <PokemonImage
+          role={PokemonImage}
+          src={data.sprites.front_default}
+          alt=" images "
+        />
+      </div>
+
       <ButtonContainer role={ButtonContainer}>
-        <Button>Select this pokemon</Button>
+        <Button onClick={() => clickHandler(url)}>Select {name}</Button>
       </ButtonContainer>
     </PokemonContainer>
   );
 };
 
-export default CardComponent;
+export default Card;

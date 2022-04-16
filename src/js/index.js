@@ -1,15 +1,16 @@
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import HomeComponent from "../components/Home/home";
-import initialAPICall from "../services";
+import DetailCard from "../components/DetailCard/DetailCard";
 
-
-const apiResponse = async () => {
-  return await initialAPICall();
-};
 const Index = () => {
-   apiResponse();
   return (
     <>
-     <HomeComponent/>
+      <Router>
+        <Switch>
+          <Route path="/" exact component={HomeComponent}></Route>
+          <Route path="/pokemon/:id" component={DetailCard}></Route>
+        </Switch>
+      </Router>
     </>
   );
 };

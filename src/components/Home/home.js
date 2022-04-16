@@ -1,62 +1,76 @@
 import React, { useState, useMemo, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import { HomeContainer } from "./home.styled";
-import CardComponent from "../Card/Card";
-import Pagination from "../Pagination/Pagination";
-import API_URL from "../../constants";
-
-let PageSize = 10;
+import Card from "../Card/Card";
+import initialAPICall from "../../services";
+// import API_URL from "../../constants/constants";
 
 const HomeComponent = () => {
+  const history = useHistory();
+  console.log({ history });
+  const [offset, setOffset] = useState(0);
+  const [page, setPage] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   // const [apiResponse, setApiResponse] = useState([]);
   const [data, setData] = useState([]);
-
-  console.log(data);
+  const [isGrid, setIsGrid] = useState(false);
 
   useEffect(() => {
-    fetch(`${API_URL}`, {
-      method: "GET",
-      headers: {
-        protocol: "https"
-      }
-    })
-      .then((res) => {
-        if (res.ok) {
-          console.log(res);
-          return res.json();
-        } else {
-          throw res;
-        }
-      })
-      .then((res) => setData(res.results))
-      .catch(function () {
-        alert("Can't connect to backend try latter");
-      });
-  }, []);
-    const currentTableData = useMemo(() => {
-      const firstPageIndex = (currentPage - 1) * PageSize;
-      const lastPageIndex = firstPageIndex + PageSize;
-      return data.slice(firstPageIndex, lastPageIndex);
-    }, [currentPage]);
+    initialAPICall(offset).then(setData);
+  }, [offset]);
 
-  return (<>
+  const currentTableData = useMemo(() => {
+    const firstPageIndex = (currentPage - 1) * offset;
+    const lastPageIndex = firstPageIndex + offset;
 
-    <HomeContainer role={HomeContainer}>
-    {
-    data.map((attributes)=>{
-        
-        return (<CardComponent attributes={attributes} />)
-      })
-    }
-    </HomeContainer>
-      <Pagination key = " aaaa"
-        className="pagination-bar"
-        currentPage={currentPage}
-        totalCount={data.length}
-        pageSize={PageSize}
-        onPageChange={(page) => setCurrentPage(page)}
-      />
-  </>
+    return data.slice(firstPageIndex, lastPageIndex);
+  }, [currentPage, data]);
+
+  const listGridSwitch = (value) => {
+    return setIsGrid(value);
+  };
+
+  useEffect(() => {
+    updateQuery();
+  }, [page]);
+
+  const updateQuery = () => {
+    history.replace({
+      pathname: history.location.pathname,
+      search: `?page=${page}`
+    });
+  };
+
+  const handleClick = (e) => {
+    e.preventDefault();
+    setPage((prev) => prev + 1);
+    setOffset((prev) => prev + 10);
+  };
+  const handleBackPage = (e) => {
+    console.log("back");
+    e.preventDefault();
+
+    setPage((prev) => prev - 1);
+    setOffset((prev) => prev - 10);
+  };
+
+  return (
+    <>
+      <div onClick={() => listGridSwitch(false)}>LIST</div>
+      <div onClick={() => listGridSwitch(true)}>GRID</div>
+      <HomeContainer role={HomeContainer}>
+        {data.map((attributes) => {
+          const { name, url } = attributes;
+          return <Card key={url} name={name} url={url} />;
+        })}
+      </HomeContainer>
+      <div style={{ margin: "1rem", padding: "1rem" }}>
+        <button onClick={handleBackPage} disabled={page === 0}>
+          Página Anterior
+        </button>
+        <button onClick={handleClick}>cambio de pagina</button>
+      </div>
+    </>
   );
 };
 

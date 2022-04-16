@@ -1,21 +1,22 @@
-import API_URL from "../../src/constants";
+import API_URL from "../constants/constants";
 
-const initialAPICall = async () => {
-  fetch(`${API_URL}`, {
-    method: "GET",
-    headers: {
-      protocol: "https"
-    }
-  })
-    .then((res) => res.json())
-    .then((res) => {
-      if (res.success) {
-        console.log(res);
+const LIMIT = 10;
+
+const initialAPICall = async (offset) => {
+  console.log({ offset });
+  try {
+    const response = await fetch(`${API_URL}?offset=${offset}&limit=${LIMIT}`, {
+      method: "GET",
+      headers: {
+        protocol: "https"
       }
-    })
-    .catch(function () {
-      alert("Can't connect to backend try latter");
     });
+
+    const { results } = await response.json();
+    return results;
+  } catch (error) {
+    alert("Can't connect to backend try latter", error);
+  }
 };
 
 export default initialAPICall;

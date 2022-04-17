@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import {
-  PokemonContainer,
-  PokemonTitle,
-  PokemonImage,
+  ListItemContainer,
+  ImageItem,
+  TitleItem,
+  Button,
   ButtonContainer,
-  Button
-} from "./Card.styled";
-
-const Card = ({ url, name }) => {
+  ContentContainer
+} from "./List.styled";
+const List = ({ url, name }) => {
   const [data, setData] = useState(null);
 
   useEffect(() => {
@@ -27,25 +27,28 @@ const Card = ({ url, name }) => {
   const clickHandler = () => {
     console.log("click");
   };
-
   if (!data) return null;
 
   return (
-    <PokemonContainer role={PokemonContainer}>
-      <div>
-        <PokemonTitle role={PokemonTitle}>{name}</PokemonTitle>
-        <PokemonImage
-          role={PokemonImage}
+    <li>
+      <ListItemContainer>
+        <ContentContainer>
+          <TitleItem>{name}</TitleItem>
+        </ContentContainer>
+        <ImageItem
           src={data.sprites.front_default}
-          alt=" images "
+          alt={"image of " + { name }}
         />
-      </div>
-
-      <ButtonContainer role={ButtonContainer}>
-        <Button onClick={() => clickHandler(url)}>Select {name}</Button>
-      </ButtonContainer>
-    </PokemonContainer>
+        <ButtonContainer>
+          <Button
+            onClick={() => clickHandler(url)}
+            type="button"
+            autoFocus
+          ></Button>
+        </ButtonContainer>
+      </ListItemContainer>
+    </li>
   );
 };
 
-export default Card;
+export default List;

@@ -1,13 +1,20 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { HomeContainer } from "./home.styled";
+import {
+  ButtonSelection,
+  HomeContainerElements,
+  Pagination,
+  HomeContainerList,
+  ButtonContainer,
+  UnorderedList
+} from "./home.styled";
 import Card from "../Card/Card";
+import List from "../List/List";
 import initialAPICall from "../../services";
 // import API_URL from "../../constants/constants";
 
 const HomeComponent = () => {
   const history = useHistory();
-  console.log({ history });
   const [offset, setOffset] = useState(0);
   const [page, setPage] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
@@ -27,6 +34,7 @@ const HomeComponent = () => {
   }, [currentPage, data]);
 
   const listGridSwitch = (value) => {
+    console.log(value);
     return setIsGrid(value);
   };
 
@@ -41,7 +49,7 @@ const HomeComponent = () => {
     });
   };
 
-  const handleClick = (e) => {
+  const handleNetxPage = (e) => {
     e.preventDefault();
     setPage((prev) => prev + 1);
     setOffset((prev) => prev + 10);
@@ -53,23 +61,51 @@ const HomeComponent = () => {
     setPage((prev) => prev - 1);
     setOffset((prev) => prev - 10);
   };
-
-  return (
-    <>
-      <div onClick={() => listGridSwitch(false)}>LIST</div>
-      <div onClick={() => listGridSwitch(true)}>GRID</div>
-      <HomeContainer role={HomeContainer}>
+  const tableVisual = () => {
+    return !isGrid ? (
+      <HomeContainerList>
+        <UnorderedList>
+          <div>
+            <span>Name</span>
+            <span>Image</span>
+            <span>Select</span>
+          </div>
+          {data.map((attributes) => {
+            const { name, url } = attributes;
+            return <List key={url + "list"} name={name} url={url}></List>;
+          })}
+        </UnorderedList>
+      </HomeContainerList>
+    ) : (
+      <HomeContainerElements role={HomeContainerElements}>
         {data.map((attributes) => {
           const { name, url } = attributes;
           return <Card key={url} name={name} url={url} />;
         })}
-      </HomeContainer>
-      <div style={{ margin: "1rem", padding: "1rem" }}>
-        <button onClick={handleBackPage} disabled={page === 0}>
-          Página Anterior
+      </HomeContainerElements>
+    );
+  };
+
+  return (
+    <>
+      <ButtonContainer>
+        <ButtonSelection onClick={() => listGridSwitch(false)}>
+          LIST
+        </ButtonSelection>
+        <ButtonSelection onClick={() => listGridSwitch(true)}>
+          GRID
+        </ButtonSelection>
+      </ButtonContainer>
+      {tableVisual()}
+      <Pagination>
+        <button className="prev" onClick={handleBackPage} disabled={page === 0}>
+          Previous page
         </button>
-        <button onClick={handleClick}>cambio de pagina</button>
-      </div>
+        <div>{page}</div>
+        <button className="next" onClick={handleNetxPage}>
+          Next page
+        </button>
+      </Pagination>
     </>
   );
 };

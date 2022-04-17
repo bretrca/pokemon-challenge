@@ -1,13 +1,22 @@
 import styled from "styled-components";
 //fadein fadeout
+
+const themeSizes = {
+  min: "120px",
+  mid: "150px",
+  max: "160px",
+  scaleMin: "0.8",
+  scaleMid: ".9",
+  scaleMax: "1"
+};
 const PokemonContainer = styled.div`
   grid-area: "card";
   display: flex;
   flex-direction: column;
-  width: 150px;
   margin: 2px;
   padding: 5px;
-  height: 150px;
+  width: ${(props) => themeSizes.min};
+  height: ${(props) => themeSizes.min};
   align-content: center;
   align-items: center;
   justify-content: space-evenly;
@@ -25,6 +34,17 @@ const PokemonContainer = styled.div`
   border-radius: 100%;
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
   position: relative;
+  transform: scale(${(props) => themeSizes.scaleMin});
+  @media (min-width: 720px) {
+    width: ${(props) => themeSizes.mid};
+    height: ${(props) => themeSizes.mid};
+    transform: scale(${(props) => themeSizes.scaleMid});
+  }
+  @media (min-width: 1020px) {
+    width: ${(props) => themeSizes.max};
+    height: ${(props) => themeSizes.max};
+    transform: scale(${(props) => themeSizes.scaleMax});
+  }
 `;
 const PokemonTitle = styled.div`
   z-index: 2;
@@ -44,6 +64,7 @@ const PokemonImage = styled.img`
   height: 200px;
   top: 0;
   left: 0;
+  transform: scale(0.9);
 `;
 const ButtonContainer = styled.div`
   position: absolute;

@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import fetchAttributes from "../../services/fetch";
+import routerService from "../../services/routerService";
 import {
   ListItemContainer,
   ImageItem,
@@ -9,26 +12,18 @@ import {
 } from "./List.styled";
 const List = ({ url, name }) => {
   const [data, setData] = useState(null);
+  const { search } = useLocation();
 
   useEffect(() => {
-    fetchAttributes(url);
+    fetchAttributes(url, setData);
   }, [url]);
-  const fetchAttributes = async (url) => {
-    fetch(`${url}`, { method: "GET" })
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-      })
-      .then((res) => {
-        return setData(res);
-      });
-  };
-  const clickHandler = () => {
-    console.log("click");
-  };
-  if (!data) return null;
 
+  if (!data) return null;
+  const idPokemon = url
+    .split("/")
+    .filter((word) => word.trim().length > 0)
+    .pop();
+  const pokemonTo = routerService(idPokemon, search);
   return (
     <li>
       <ListItemContainer>
@@ -40,11 +35,7 @@ const List = ({ url, name }) => {
           alt={"image of " + { name }}
         />
         <ButtonContainer>
-          <Button
-            onClick={() => clickHandler(url)}
-            type="button"
-            autoFocus
-          ></Button>
+          <Link to={pokemonTo}>a</Link>
         </ButtonContainer>
       </ListItemContainer>
     </li>

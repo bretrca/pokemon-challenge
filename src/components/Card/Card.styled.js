@@ -86,7 +86,7 @@ const ButtonContainer = styled.div`
     text-align: center;
   }
 `;
-const Button = styled.button`
+const Button = styled.a`
   position: absolute;
   top: calc(50% - 40px / 2);
   left: calc(50% - 40px / 2);

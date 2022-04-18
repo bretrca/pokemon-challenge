@@ -34,7 +34,7 @@ Yout can change the view using the bottoms of view:
 ### Funcionalities
 - This app use hooks for the change of the pages.
 - Also thie app uses react router v5 for the navigation.
-- The ap is available to be responsive.
+- The app is available to be responsive.
 - For the styles this app employ the styled components.
 - I selected the fetch method for get the information to the app.
 - For solve the navigation for the return to the list/grid the solution applied was using queries to return.

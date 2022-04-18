@@ -55,8 +55,8 @@ const PokemonTitle = styled.div`
   width: 100%;
   padding: 10px 0px;
   min-height: 20px;
-  color: #000;
-  mix-blend-mode: darken;
+  color: #fff;
+  font-weight: bold;
 `;
 const PokemonImage = styled.img`
   position: absolute;

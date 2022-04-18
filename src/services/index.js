@@ -2,8 +2,9 @@ import API_URL from "../constants/constants";
 
 const LIMIT = 10;
 
-const initialAPICall = async (offset) => {
-  console.log({ offset });
+const initialAPICall = async (pageNumber) => {
+  const offset = pageNumber > 1 ? (pageNumber - 1) * 10 : 0;
+
   try {
     const response = await fetch(`${API_URL}?offset=${offset}&limit=${LIMIT}`, {
       method: "GET",

@@ -1,66 +1,46 @@
-import React, { useState, useMemo, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useHistory, useLocation } from "react-router-dom";
 import {
-  ButtonSelection,
   HomeContainerElements,
-  Pagination,
+  Pagination as PaginationContainer,
   HomeContainerList,
-  ButtonContainer,
   UnorderedList
-} from "./home.styled";
+} from "./Home.styled";
 import Card from "../Card/Card";
 import List from "../List/List";
 import initialAPICall from "../../services";
-// import API_URL from "../../constants/constants";
+import Pagination from "../Pagination/Pagination";
+import ListGridSelector from "../ListGridSelector/ListGridSelector";
+const useQuery = () => {
+  const { search } = useLocation();
 
-const HomeComponent = () => {
+  return React.useMemo(() => new URLSearchParams(search), [search]);
+};
+const Home = () => {
   const history = useHistory();
-  const [offset, setOffset] = useState(0);
-  const [page, setPage] = useState(0);
-  const [currentPage, setCurrentPage] = useState(1);
-  // const [apiResponse, setApiResponse] = useState([]);
+
+  const query = useQuery();
+  const pages = parseInt(query.get("page")) || 1;
+  const grid = query.get("grid") === "true";
+
+  const [page, setPage] = useState(pages);
   const [data, setData] = useState([]);
-  const [isGrid, setIsGrid] = useState(false);
-
-  useEffect(() => {
-    initialAPICall(offset).then(setData);
-  }, [offset]);
-
-  const currentTableData = useMemo(() => {
-    const firstPageIndex = (currentPage - 1) * offset;
-    const lastPageIndex = firstPageIndex + offset;
-
-    return data.slice(firstPageIndex, lastPageIndex);
-  }, [currentPage, data]);
-
-  const listGridSwitch = (value) => {
-    console.log(value);
-    return setIsGrid(value);
-  };
+  const [isGrid, setIsGrid] = useState(grid);
 
   useEffect(() => {
     updateQuery();
+  }, [page, isGrid]);
+
+  useEffect(() => {
+    initialAPICall(page).then(setData);
   }, [page]);
 
   const updateQuery = () => {
     history.replace({
-      pathname: history.location.pathname,
-      search: `?page=${page}`
+      search: `?page=${page}&grid=${isGrid}`
     });
   };
 
-  const handleNetxPage = (e) => {
-    e.preventDefault();
-    setPage((prev) => prev + 1);
-    setOffset((prev) => prev + 10);
-  };
-  const handleBackPage = (e) => {
-    console.log("back");
-    e.preventDefault();
-
-    setPage((prev) => prev - 1);
-    setOffset((prev) => prev - 10);
-  };
   const tableVisual = () => {
     return !isGrid ? (
       <HomeContainerList>
@@ -88,26 +68,17 @@ const HomeComponent = () => {
 
   return (
     <>
-      <ButtonContainer>
-        <ButtonSelection onClick={() => listGridSwitch(false)}>
-          LIST
-        </ButtonSelection>
-        <ButtonSelection onClick={() => listGridSwitch(true)}>
-          GRID
-        </ButtonSelection>
-      </ButtonContainer>
+      <ListGridSelector setIsGrid={setIsGrid}></ListGridSelector>
       {tableVisual()}
-      <Pagination>
-        <button className="prev" onClick={handleBackPage} disabled={page === 0}>
-          Previous page
-        </button>
-        <div>{page}</div>
-        <button className="next" onClick={handleNetxPage}>
-          Next page
-        </button>
-      </Pagination>
+      <PaginationContainer>
+        <Pagination
+          page={page}
+          setPage={setPage}
+          // setOffset={setPage}
+        ></Pagination>
+      </PaginationContainer>
     </>
   );
 };
 
-export default HomeComponent;
+export default Home;

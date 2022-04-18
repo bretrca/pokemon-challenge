@@ -35,7 +35,9 @@ const List = ({ url, name }) => {
           alt={"image of " + { name }}
         />
         <ButtonContainer>
-          <Link to={pokemonTo}>a</Link>
+          <Link to={pokemonTo}>
+            <Button></Button>
+          </Link>
         </ButtonContainer>
       </ListItemContainer>
     </li>

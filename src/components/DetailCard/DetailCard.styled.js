@@ -5,7 +5,7 @@ const PokemonContainerDescription = styled.div`
   flex-direction: column;
   margin: 1rem auto;
   align-items: center;
-  width: 20rem;
+  width: 18rem;
   height: 23rem;
   background: linear-gradient(
     180deg,
@@ -33,10 +33,20 @@ const PokemonDescData = styled.img`
 const PokemonDescriptionAbilities = styled.div`
   text-align: center;
 `;
+const Button = styled.button`
+  margin: auto 1rem;
+  text-align: center;
+  padding: 1rem;
+  width: 4rem;
+  border-radius: 1%;
+  box-shadow: 2px -2px teal;
+  background-color: #ffd;
+`;
 
 export {
   PokemonContainerDescription,
   PokemonDescData,
   PokemonDescHeader,
-  PokemonDescriptionAbilities
+  PokemonDescriptionAbilities,
+  Button
 };

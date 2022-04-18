@@ -40,7 +40,9 @@ const Card = ({ url, name }) => {
       </div>
 
       <ButtonContainer role={ButtonContainer}>
-        <Link to={pokemonTo}>Select {name}</Link>
+        <Link to={pokemonTo}>
+          <Button></Button>
+        </Link>
       </ButtonContainer>
     </PokemonContainer>
   );

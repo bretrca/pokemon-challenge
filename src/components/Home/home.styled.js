@@ -43,7 +43,7 @@ const UnorderedList = styled.ul`
   }
 `;
 const ButtonContainer = styled.div`
-  margin: 0 auto;
+  margin: 1rem auto;
   display: flex;
   flex-direction: columns;
 `;
@@ -60,17 +60,8 @@ const Pagination = styled.div`
   margin: 1rem 0;
   width: 70%;
   padding: 1rem 0;
-
-  &.prev,
-  &.next {
-    width: 60px;
-    padding: 1rem;
-    background: blue;
-  }
   ,
-  &div {
-    text-align: center;
-  }
+
 `;
 
 export {

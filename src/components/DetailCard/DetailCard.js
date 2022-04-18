@@ -1,17 +1,19 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import getTypeStyle from "../../constants/pokemon_types";
 
 import {
   PokemonContainerDescription,
   PokemonDescData,
   PokemonDescHeader,
-  PokemonDescriptionAbilities
+  PokemonDescriptionAbilities,
+  Button
 } from "./DetailCard.styled";
 
 const DetailCard = () => {
   const { id } = useParams();
   const [pokemonDetails, setPokemonDetails] = useState(null);
+  const history = useHistory();
 
   useEffect(() => {
     fetch(`https://pokeapi.co/api/v2/pokemon/${id}`).then(async (rs) => {
@@ -21,8 +23,9 @@ const DetailCard = () => {
   }, [id]);
 
   if (!pokemonDetails) return null;
+
   const abilities = pokemonDetails.abilities.map((ability) => (
-    <span> {ability.ability.name} </span>
+    <p key={ability.ability.slot}> {ability.ability.name} </p>
   ));
   const image = pokemonDetails.sprites.front_default;
   const bgcolorType = pokemonDetails.types.map((type) =>
@@ -30,15 +33,18 @@ const DetailCard = () => {
   );
   return (
     <>
-      <PokemonContainerDescription key={id} color={getTypeStyle(bgcolorType)}>
+      <PokemonContainerDescription color={getTypeStyle(bgcolorType)}>
         <PokemonDescHeader>{pokemonDetails.name}</PokemonDescHeader>
         <PokemonDescData src={image} alt="from description sprite" />
 
-        <PokemonDescriptionAbilities>
-          abilities:{abilities}
+        <PokemonDescriptionAbilities key={pokemonDetails.name + id}>
+          <h3> Abilities:</h3>
+
+          {abilities}
         </PokemonDescriptionAbilities>
       </PokemonContainerDescription>
-      <button>Back to list</button>
+
+      <Button onClick={() => history.goBack()}>Back</Button>
     </>
   );
 };

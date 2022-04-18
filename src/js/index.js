@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import HomeComponent from "../components/Home/home";
+import Home from "../components/Home/Home";
 import DetailCard from "../components/DetailCard/DetailCard";
-import Logo from "../assets/images/logo.png";
+
 const Index = () => {
   return (
     <>
@@ -9,7 +9,7 @@ const Index = () => {
 
       <Router>
         <Switch>
-          <Route path="/" exact component={HomeComponent}></Route>
+          <Route path="/" exact component={Home}></Route>
           <Route path="/pokemon/:id" component={DetailCard}></Route>
         </Switch>
       </Router>

@@ -5,8 +5,8 @@ const PokemonContainerDescription = styled.div`
   flex-direction: column;
   margin: 1rem auto;
   align-items: center;
-  width: 20rem;
-  height: 23rem;
+  width: 18rem;
+  height: 25rem;
   background: linear-gradient(
     180deg,
     ${(props) => props.color} 0%,
@@ -17,6 +17,7 @@ const PokemonContainerDescription = styled.div`
     #fff 100%
   );
   border: 6px solid ${(props) => props.color};
+  outline: 1px solid #000;
 `;
 
 const PokemonDescHeader = styled.h1`
@@ -32,11 +33,22 @@ const PokemonDescData = styled.img`
 `;
 const PokemonDescriptionAbilities = styled.div`
   text-align: center;
+  overflow: hidden;
+`;
+const Button = styled.button`
+  margin: auto 1rem;
+  text-align: center;
+  padding: 1rem;
+  width: 4rem;
+  border-radius: 1%;
+  box-shadow: 2px -2px teal;
+  background-color: #ffd;
 `;
 
 export {
   PokemonContainerDescription,
   PokemonDescData,
   PokemonDescHeader,
-  PokemonDescriptionAbilities
+  PokemonDescriptionAbilities,
+  Button
 };

@@ -6,7 +6,7 @@ const PokemonContainerDescription = styled.div`
   margin: 1rem auto;
   align-items: center;
   width: 18rem;
-  height: 23rem;
+  height: 25rem;
   background: linear-gradient(
     180deg,
     ${(props) => props.color} 0%,
@@ -17,6 +17,7 @@ const PokemonContainerDescription = styled.div`
     #fff 100%
   );
   border: 6px solid ${(props) => props.color};
+  outline: 1px solid #000;
 `;
 
 const PokemonDescHeader = styled.h1`
@@ -32,6 +33,7 @@ const PokemonDescData = styled.img`
 `;
 const PokemonDescriptionAbilities = styled.div`
   text-align: center;
+  overflow: hidden;
 `;
 const Button = styled.button`
   margin: auto 1rem;

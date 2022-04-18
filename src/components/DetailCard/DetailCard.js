@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useHistory, useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import getTypeStyle from "../../constants/pokemon_types";
 
 import {
@@ -25,7 +25,7 @@ const DetailCard = () => {
   if (!pokemonDetails) return null;
 
   const abilities = pokemonDetails.abilities.map((ability) => (
-    <div> {ability.ability.name} </div>
+    <p key={ability.ability.slot}> {ability.ability.name} </p>
   ));
   const image = pokemonDetails.sprites.front_default;
   const bgcolorType = pokemonDetails.types.map((type) =>
@@ -33,21 +33,18 @@ const DetailCard = () => {
   );
   return (
     <>
-      <PokemonContainerDescription
-        key={`detail` + id}
-        color={getTypeStyle(bgcolorType)}
-      >
+      <PokemonContainerDescription color={getTypeStyle(bgcolorType)}>
         <PokemonDescHeader>{pokemonDetails.name}</PokemonDescHeader>
         <PokemonDescData src={image} alt="from description sprite" />
 
-        <PokemonDescriptionAbilities>
+        <PokemonDescriptionAbilities key={pokemonDetails.name + id}>
           <h3> Abilities:</h3>
+
           {abilities}
         </PokemonDescriptionAbilities>
       </PokemonContainerDescription>
-      <Link>
-        <Button onClick={() => history.goBack()}>Back</Button>
-      </Link>
+
+      <Button onClick={() => history.goBack()}>Back</Button>
     </>
   );
 };

@@ -1,0 +1,38 @@
+const listServices = [
+  { type: "streaming", price: 1, premium: false },
+  { type: "download", price: 1, premium: false }
+];
+
+const defineService = (servicesSelected: string[]): number => {
+  let totalPrice = 0;
+  let premiumValue = 1;
+
+  servicesSelected.forEach(serviceSelected => {
+    if (serviceSelected[1]) {
+      totalPrice += premiumValue;
+    }
+    if (serviceSelected[0]) {
+      totalPrice += listServices[0].price;
+    }
+  });
+  return totalPrice;
+};
+// Estem limitats a tres serveis diferents
+// Amb la creació de una llista de serveis podem afegit tants com volguem
+// Partint de la base que ara tenim un servei exten també podem fer que el codi es vegi millor.
+// només hauriem d'afegir la funció defineService al getTotal que ja tenim i podem treure moltres coses de les que ara son escrites.
+
+// el resultat seria així
+
+class RegisteredUser {
+  services: string[] = [];
+  constructor(services: any = []) {
+    this.services = services;
+  }
+
+  getTotal() {
+    let total = 0;
+    return (total = defineService(this.services));
+  }
+}
+export default RegisteredUser;
